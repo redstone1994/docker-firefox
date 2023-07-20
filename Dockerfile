@@ -9,6 +9,8 @@ LABEL maintainer="thelamer"
 
 # title
 ENV TITLE=Firefox
+# add local files
+COPY ./front/*  /usr/local/share/fonts/
 
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
 RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-2.35-r1.apk
@@ -21,10 +23,8 @@ RUN /usr/glibc-compat/bin/localedef -i zh_CN -f UTF-8 zh_CN.UTF-8
 RUN rm -rf glibc-bin-2.35-r1.apk glibc-i18n-2.35-r1.apk
 
 RUN apk add --update fontconfig ttf-dejavu
-# add local files
-COPY ./front/*  /usr/local/share/fonts/
-ENV LANG=zh_CN.utf8
 
+ENV LANG=zh_CN.utf8
 
 RUN \
   echo "**** install packages ****" && \
@@ -47,7 +47,7 @@ RUN \
   rm -rf \
     /tmp/*
 
-
+COPY /root /
 
 # ports and volumes
 EXPOSE 3000
